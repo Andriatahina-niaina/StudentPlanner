@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use App\Enum\Category;
+use App\Enum\State;
 use App\Repository\EtablishmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -13,21 +15,34 @@ class Etablishment
     #[ORM\Column]
     private ?int $id = null;
 
+    #[ORM\ManyToOne(inversedBy: 'etablishments')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?District $district = null;
+
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $regionEtab = null;
+    #[ORM\Column(type: 'string', enumType: Category::class)]
+    private Category $categEtab;
 
-    #[ORM\Column(length: 255)]
-    private ?string $districkEtab = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $categEtab = null;
+    #[ORM\Column(type: 'string', enumType: State::class)]
+    private State $etabState;
 
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function getDistrict(): ?District
+    {
+        return $this->district;
+    }
+
+    public function setDistrict(?District $district): static
+    {
+        $this->district = $district;
+
+        return $this;
     }
 
     public function getName(): ?string
@@ -42,39 +57,25 @@ class Etablishment
         return $this;
     }
 
-    public function getRegionEtab(): ?string
-    {
-        return $this->regionEtab;
-    }
-
-    public function setRegionEtab(string $regionEtab): static
-    {
-        $this->regionEtab = $regionEtab;
-
-        return $this;
-    }
-
-    public function getDistrickEtab(): ?string
-    {
-        return $this->districkEtab;
-    }
-
-    public function setDistrickEtab(string $districkEtab): static
-    {
-        $this->districkEtab = $districkEtab;
-
-        return $this;
-    }
-
-    public function getCategEtab(): ?string
+    public function getCategEtab(): Category
     {
         return $this->categEtab;
     }
 
-    public function setCategEtab(string $categEtab): static
+    public function setCategEtab(Category $categEtab): self
     {
         $this->categEtab = $categEtab;
+        return $this;
+    }
 
+    public function getEtabState(): State
+    {
+        return $this->etabState;
+    }
+
+    public function setEtabState(State $etabState): self
+    {
+        $this->etabState = $etabState;
         return $this;
     }
 }
