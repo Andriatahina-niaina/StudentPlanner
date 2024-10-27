@@ -14,7 +14,7 @@ class Student
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $student_status_juridique = null;
+    private ?string $status_juridique = null;
 
     #[ORM\Column]
     private ?int $student_nbr_presco = null;
@@ -29,21 +29,22 @@ class Student
     private ?int $student_nbr_lycee = null;
 
     #[ORM\ManyToOne(inversedBy: 'students')]
-    private ?District $district = null;
+    #[ORM\JoinColumn(nullable: false)]
+    private ?District $district_student = null;
 
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getStudentStatusJuridique(): ?string
+    public function getStatusJuridique(): ?string
     {
-        return $this->student_status_juridique;
+        return $this->status_juridique;
     }
 
-    public function setStudentStatusJuridique(string $student_status_juridique): static
+    public function setStatusJuridique(string $status_juridique): static
     {
-        $this->student_status_juridique = $student_status_juridique;
+        $this->status_juridique = $status_juridique;
 
         return $this;
     }
@@ -96,15 +97,16 @@ class Student
         return $this;
     }
 
-    public function getDistrict(): ?District
+    public function getDistrictStudent(): ?District
     {
-        return $this->district;
+        return $this->district_student;
     }
 
-    public function setDistrict(?District $district): static
+    public function setDistrictStudent(?District $district_student): static
     {
-        $this->district = $district;
+        $this->district_student = $district_student;
 
         return $this;
     }
+
 }

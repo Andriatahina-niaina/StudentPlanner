@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Entity;
 
 use App\Repository\RegionRepository;
@@ -18,15 +17,12 @@ class Region
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    /**
-     * @var Collection<int, District>
-     */
-    #[ORM\OneToMany(targetEntity: District::class, mappedBy: 'region')]
-    private Collection $district;
+    #[ORM\OneToMany(mappedBy: 'region', targetEntity: District::class, cascade: ['persist'])]
+    private Collection $districts;
 
     public function __construct()
     {
-        $this->district = new ArrayCollection();
+        $this->districts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -39,41 +35,33 @@ class Region
         return $this->name;
     }
 
-    public function setName(string $name): static
+    public function setName(string $name): self
     {
         $this->name = $name;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, District>
-     */
-    public function getDistrict(): Collection
+    public function getDistricts(): Collection
     {
-        return $this->district;
+        return $this->districts;
     }
 
-    public function addDistrict(District $district): static
+    public function addDistrict(District $district): self
     {
-        if (!$this->district->contains($district)) {
-            $this->district->add($district);
+        if (!$this->districts->contains($district)) {
+            $this->districts->add($district);
             $district->setRegion($this);
         }
-
         return $this;
     }
 
-    public function removeDistrict(District $district): static
+    public function removeDistrict(District $district): self
     {
-        if ($this->district->removeElement($district)) {
-            // set the owning side to null (unless already changed)
+        if ($this->districts->removeElement($district)) {
             if ($district->getRegion() === $this) {
                 $district->setRegion(null);
             }
         }
-
         return $this;
     }
-    
 }
