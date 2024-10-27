@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\Region;
 use App\Entity\District;
+use App\Entity\Etablishment;  // N'oublie pas d'ajouter la classe Etablishment
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
@@ -17,23 +18,33 @@ class AppFixtures extends Fixture
             'ANTSIRANANA', 'BETSIBOKA', 'BOENY', 'BONGOLAVA', 'FITOVINANY',
             'HAUTE-MATSIATRA', 'IHOROMBE', 'ITASY', 'MELAKY', 'MENABE','SOFIA','VATOVAVY'
         ];
-        foreach ($regions as $regionName) {
+
+        $districtNames = [
+            'ANALAMANGA' => ['ANTANANARIVO AVARADRANO','AMBOHIDRATRIMO','ANKAZOBE','MANJAKANDRIANA','ANJOZOROBE','ANDRAMASINA','ANTANANARIVO ATSIMONDRANO'
+            ],
+        ];
+
+        // Persister les régions et les districts associés
+        foreach ($regionsWithDistricts as $regionName => $districts) {
+            // Créer et persister l'objet Région
             $region = new Region();
             $region->setName($regionName);
 
-            // Ajouter quelques districts à chaque région
-            for ($i = 1; $i <= 5; $i++) {
-                $district = new District();
-                $district->setName("District {$i} of {$regionName}");
-                $district->setRegion($region);
+            // Persister la région dans la base de données
+            $manager->persist($region);
 
+            // Ajouter des districts à chaque région
+            foreach ($districts as $districtName) {
+                // Créer et persister le district
+                $district = new District();
+                // Assurer que $districtName est une chaîne de caractères
+                $district->setName($districtName); // C'est ici qu'on doit passer une chaîne, pas un tableau
+                $district->setRegion($region); // Associer chaque district à sa région
+
+                // Persister le district dans la base de données
                 $manager->persist($district);
             }
-
-            $manager->persist($region);
         }
-
-        $manager->flush();
-
+                $manager->flush();
     }
 }

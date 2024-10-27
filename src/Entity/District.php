@@ -28,9 +28,23 @@ class District
     #[ORM\OneToMany(targetEntity: Etablishment::class, mappedBy: 'district')]
     private Collection $etablishments;
 
+    /**
+     * @var Collection<int, Student>
+     */
+    #[ORM\OneToMany(targetEntity: Student::class, mappedBy: 'district')]
+    private Collection $students;
+
+    /**
+     * @var Collection<int, SalleClasse>
+     */
+    #[ORM\OneToMany(targetEntity: SalleClasse::class, mappedBy: 'district_salle')]
+    private Collection $salleClasses;
+
     public function __construct()
     {
         $this->etablishments = new ArrayCollection();
+        $this->students = new ArrayCollection();
+        $this->salleClasses = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,6 +100,66 @@ class District
             // set the owning side to null (unless already changed)
             if ($etablishment->getDistrict() === $this) {
                 $etablishment->setDistrict(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Student>
+     */
+    public function getStudents(): Collection
+    {
+        return $this->students;
+    }
+
+    public function addStudent(Student $student): static
+    {
+        if (!$this->students->contains($student)) {
+            $this->students->add($student);
+            $student->setDistrict($this);
+        }
+
+        return $this;
+    }
+
+    public function removeStudent(Student $student): static
+    {
+        if ($this->students->removeElement($student)) {
+            // set the owning side to null (unless already changed)
+            if ($student->getDistrict() === $this) {
+                $student->setDistrict(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, SalleClasse>
+     */
+    public function getSalleClasses(): Collection
+    {
+        return $this->salleClasses;
+    }
+
+    public function addSalleClass(SalleClasse $salleClass): static
+    {
+        if (!$this->salleClasses->contains($salleClass)) {
+            $this->salleClasses->add($salleClass);
+            $salleClass->setDistrictSalle($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSalleClass(SalleClasse $salleClass): static
+    {
+        if ($this->salleClasses->removeElement($salleClass)) {
+            // set the owning side to null (unless already changed)
+            if ($salleClass->getDistrictSalle() === $this) {
+                $salleClass->setDistrictSalle(null);
             }
         }
 
