@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\ETablishmentRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ETablishmentRepository::class)]
@@ -31,6 +32,9 @@ class ETablishment
     #[ORM\ManyToOne]
     #[ORM\JoinColumn(nullable: false)]
     private ?District $district_etab = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $anne_scolaire = null;
 
     public function getId(): ?int
     {
@@ -105,6 +109,18 @@ class ETablishment
     public function setDistrictEtab(?District $district_etab): static
     {
         $this->district_etab = $district_etab;
+
+        return $this;
+    }
+
+    public function getAnneScolaire(): ?\DateTimeInterface
+    {
+        return $this->anne_scolaire;
+    }
+
+    public function setAnneScolaire(\DateTimeInterface $anne_scolaire): static
+    {
+        $this->anne_scolaire = $anne_scolaire;
 
         return $this;
     }

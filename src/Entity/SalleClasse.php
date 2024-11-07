@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use App\Repository\SalleClasseRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: SalleClasseRepository::class)]
@@ -31,6 +32,9 @@ class SalleClasse
     #[ORM\ManyToOne(inversedBy: 'salleClasses')]
     #[ORM\JoinColumn(nullable: false)]
     private ?District $district_salle = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $anne_scolaire = null;
 
     public function getId(): ?int
     {
@@ -105,6 +109,18 @@ class SalleClasse
     public function setDistrictSalle(?District $district_salle): static
     {
         $this->district_salle = $district_salle;
+
+        return $this;
+    }
+
+    public function getAnneScolaire(): ?\DateTimeInterface
+    {
+        return $this->anne_scolaire;
+    }
+
+    public function setAnneScolaire(\DateTimeInterface $anne_scolaire): static
+    {
+        $this->anne_scolaire = $anne_scolaire;
 
         return $this;
     }
