@@ -33,8 +33,8 @@ class Personal
     #[ORM\JoinColumn(nullable: false)]
     private ?District $district_person = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $anne_scolaire = null;
+    #[ORM\Column]
+    private ?string $anne_scolaire = null;
 
     public function getId(): ?int
     {
@@ -113,12 +113,12 @@ class Personal
         return $this;
     }
 
-    public function getAnneScolaire(): ?\DateTimeInterface
+    public function getAnneScolaire(): ?string
     {
         return $this->anne_scolaire;
     }
 
-    public function setAnneScolaire(\DateTimeInterface $anne_scolaire): static
+    public function setAnneScolaire(string $anne_scolaire): static
     {
         $this->anne_scolaire = $anne_scolaire;
 
