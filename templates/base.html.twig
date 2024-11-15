@@ -5,103 +5,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Titre par défaut{% endblock %}</title>
-    <link rel="stylesheet" href="{{ absolute_url(asset('assets/bootstraps/css/bootstrap.min.css'))}}">
+    <link rel="stylesheet" href="{{ absolute_url(asset('assets/bootstraps/css/bootstrap.min.css')) }}">
     {% block stylesheets %}{% endblock %}
 </head>
 <body>
     <header>
-        <nav class= "d-flex">
+        <nav class="container-fluid d-flex">
             <a href="#" class="pt-2"> 
                 <img src="/uploads/equipes/dpe.png" width="50px" height="50px"/>
             </a>
-            <div class = "mx-5 pt-2 ms-auto">
+            <div class="mx-4 pt-2 ms-auto">
                 <ul class="nav nav-tabs"> 
-                    <a class= "nav-item nav-link" aria-current="page" href="#">Etablissement</a>
-                    <a class= "nav-item nav-link" href="#">Elève</a>
-                    <a class= "nav-item nav-link" href="#">Personnels</a>
-                    <a class= "nav-item nav-link" href="#">Salle de Classe</a>
+                    <a class="nav-item nav-link" aria-current="page" href="{{ path('app_etablishment') }}">Etablissement</a>
+                    <a class="nav-item nav-link" href="{{ path('app_student') }}">Elève</a>
+                    <a class="nav-item nav-link" href="{{ path('app_personal') }}">Personnels</a>
+                    <a class="nav-item nav-link" href="{{ path('app_salle_classe') }}">Salle de Classe</a>
                 </ul>        
             </div>
         </nav>
         <hr>
     </header>
 
-    <main class="container-fuid mx-2 border">
-        <section class=""> 
-            <label for="anne-seclect" class="form-label">Année Scolaire :</label>
-            <select name="anne-seclect" id="anne-seclect" class="form-select ">
-                <option> 
-                    2016
-                </option>
-                  <option> 
-                    2017
-                </option>
-                  <option> 
-                    2018
-                </option>
-                  <option> 
-                    2019
-                </option>
-                  <option> 
-                    2020
-                </option>
-            </select>
-        </section>
-        <section class="row">
-            <content class = "row">
-            <div class="col-12 col-md-6 col-lg-3 ">
-                <div class="card">
-                    <div class="card-body bg-info">
-                        <h1 class="h3 card-title">Prescolaire </h1>
-                    </div>
-                    <div class="card-footer">
-                        <span class="">Public :</span>
-                        <span class="">Privé :</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card">
-                    <div class="card-body bg-success">
-                        <h1 class="h3 card-title">Primaire </h1>
-                    </div>
-                    <div class="card-footer">
-                        <span class="">Public :</span>
-                        <span class="">Privé :</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card">
-                    <div class="card-body bg-warning">
-                        <h1 class="h3 card-title">Collège </h1>
-                    </div>
-                    <div class="card-footer">
-                        <span class="">Public :</span>
-                        <span class="">Privé :</span>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-6 col-lg-3">
-                <div class="card">
-                    <div class="card-body bg-danger">
-                        <h1 class="h3 card-title">Lycée </h1>
-                    </div>
-                    <div class="card-footer">
-                        <span class="">Public :</span>
-                        <span class="">Privé :</span>
-                    </div>
-                </div>
-            </div>
-        </section>
-        </content>
+    <main class="">
+        {% block body %}{% endblock %}
     </main>
 
     <footer>
         {# Contenu du pied de page #}
     </footer>
 
-    <script src="{{ absolute_url(asset('assets/bootstraps/js/bootstrap.bundle.min.js'))}}"></script>
+    <script src="{{ absolute_url(asset('assets/bootstraps/js/bootstrap.bundle.min.js')) }}"></script>
     {% block javascripts %}{% endblock %}
 </body>
 </html>

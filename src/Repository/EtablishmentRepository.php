@@ -2,22 +2,22 @@
 
 namespace App\Repository;
 
-use App\Entity\ETablishment;
+use App\Entity\Etablishment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @extends ServiceEntityRepository<ETablishment>
+ * @extends ServiceEntityRepository<Etablishment>
  */
-class ETablishmentRepository extends ServiceEntityRepository
+class EtablishmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ETablishment::class);
+        parent::__construct($registry, Etablishment::class);
     }
 
     //    /**
-    //     * @return ETablishment[] Returns an array of ETablishment objects
+    //     * @return Etablishment[] Returns an array of Etablishment objects
     //     */
     //    public function findByExampleField($value): array
     //    {
@@ -31,7 +31,7 @@ class ETablishmentRepository extends ServiceEntityRepository
     //        ;
     //    }
 
-    //    public function findOneBySomeField($value): ?ETablishment
+    //    public function findOneBySomeField($value): ?Etablishment
     //    {
     //        return $this->createQueryBuilder('e')
     //            ->andWhere('e.exampleField = :val')

@@ -11,56 +11,68 @@ class AppFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        // Table associative des noms de régions avec leurs districts
         $regionsWithDistricts = [
-            'ANALAMANGA' => ['ANTANANARIVO AVARADRANO', 'AMBOHIDRATRIMO', 'ANKAZOBE', 'MANJAKANDRIANA', 'ANJOZOROBE', 'ANDRAMASINA', 'ANTANANARIVO ATSIMONDRANO'],
-            'ALAOTRA-MANGORO' => ['AMBATONDRAZAKA','MORAMANGA','ANDILAMENA','ANOSIBE ANALA','AMPARAFARAVOLA'],
-            'AMORON I MANIA' => ['AMBATOFINANDRAHANA','AMBOSITRA','FANDRIANA','MANANDRIANA',],
-            'ANALANJIROFO' => ['SAINTE-MARIE','MAROANTSETRA','MANANARA-NORD','FENERIVE-EST','VAVATENINA','SOANIERANA IVONGO'],
-            'ANDROY' => ['BELOHA','TSIHOMBE','AMBOVOMBE','BEKILY'],
-            'ANOSY' => ['BETROKA','AMBOASARY-SUD'],
-            'ATSIMO-ANDREFANA' => ['TOLIARA I','BEROROHA','MOROMBE','ANKAZOABO','BETIOKY','AMPANIHY','SAKARAHA','TOLIARA II','BENENITRA'],
-            'ATSIMO-ATSINANANA' => ['FARAFANGANA','VAGAINDRANO','MIDONGY-SUD','VONDROZO','BEFOTAKA'],
-            'ANTSIRANANA' => ['TOAMASINA I','BRICKAVILLE','VATOMANDRY','MAHANORO','MAROLAMBO','TOAMASINA II','ANTANAMBAO-MANAMPOTSY'],
-            'BETSIBOKA' => ['MAEVATANANA','TSARATANANA','KANDREHO'],
-            'BOENY' => ['MAHAJANGA I','SOALALA','AMBATOBOENY','MAROVOAY','MITSINJO','MAHAJANGA II'],
-            'BONGOLAVA' => ['TSIROANOMANDIDY','FENOARIVOBE'],
-            'DIANA' => ['ANTSIRANANA I', 'ANTSIRANANA II', 'AMBILOBE','NOSY-BE','AMBANJA'],
-            'HAUTE-MATSIATRA' => ['FIANARANTSOA I','AMBALAVAO','AMBOHIMAHASOA','IKALAMAVONY','LALANGINA','VOHIBATO','ISANDRA'],
-            'IHOROMBE' => ['IHOSY','IVOHIBE','IAKORA'],
-            'ITASY' => ['ARIVONIMAMO','MIARINARIVO','SOAVINANDRIANA',],
-            'MELAKY' => ['BESALAMPY','AMBATOMAINTY','ANTSALOVA','MAINTIRANO','MORAFENOBE'],
-            'MENABE' => ['MANJA','MORONDAVA','MAHABO','BELO SUR TSIRIBIHINA','MIANDRIVAZO'],
-            'SOFIA' => ['PORT-BERGE','MANDRITSARA','ANALALAVA','BEFANDRIANA-NORD','ANTSOHIHY','BEALANANA','MAMPIKONY'],
-            'SAVA' => ['ANTALAHA','SAMBAVA','ANDAPA','VOHIMARINA',],
-            'VAKINAKARATRA' => ['ANTSIRABE 1', 'ANTSIRABE 2','AMBATOLAMPY', 'BETAFO','ANTANIFOTSY','FARATSIHO','MANDOTO'],
-            'VATOVAVY FITOVINANY' => ['IFANADIANA','NOSY-VARIKA','MANANJARY','MANAKARA','IKONGO','VOHIPENO'],
+            'ALAOTRA-MANGORO' => ['AMBATONDRAZAKA','AMPARAFARAVOLA','ANDILAMENA','ANOSIBE ANALA','MORAMANGA'],
+
+            'AMORON I MANIA' => ['AMBATOFINANDRAHANA','AMBOSITRA','FANDRIANA','MANANDRIANA'],
+
+            'ANALAMANGA' => ['AMBOHIDRATRIMO', 'ANDRAMASINA', 'ANJOZOROBE', 'ANKAZOBE', 'ANTANANARIVO ATSIMONDRANO ', 
+                            'ANTANANARIVO AVARADRANO ', 'ANTANANARIVO RENIVOHITRA','MANJAKANDRIANA'],
+
+            'ANALANJIROFO' => ['FENERIVE-EST ','MANANARA-NORD ','MAROANTSETRA','SAINTE-MARIE ','SOANIERANA IVONGO','VAVATENINA '],
+
+            'ANDROY' => ['AMBOVOMBE','BEKILY','BELOHA','TSIHOMBE'],
+
+            'ANOSY' => ['AMBOASARY-SUD ','BETROKA','TAOLANARO'],
+
+            'ATSIMO-ANDREFANA' => ['AMPANIHY','ANKAZOABO','BENENITRA','BEROROHA','BETIOKY','MOROMBE','SAKARAHA','TOLIARA I ','TOLIARA II '],
+
+            'ATSIMO-ATSINANANA' => ['BEFOTAKA','FARAFANGANA','MIDONGY-SUD ','VANGAINDRANO','VONDROZO'],
+
+            'ANTSINANANA' => ['ANTANAMBAO-MANAMPOTSY','BRICKAVILLE','MAHANORO','MAROLAMBO','TOAMASINA I','TOAMASINA II','VATOMANDRY '],
+
+            'BETSIBOKA' => ['KANDREHO','MAEVATANANA','TSARATANANA'],
+
+            'BOENY' => ['AMBATOBOENY','MAHAJANGA I','MAHAJANGA II','MAROVOAY','MITSINJO','SOALALA'],
+
+            'BONGOLAVA' => ['FENOARIVOBE','TSIROANOMANDIDY'],
+
+            'DIANA' => ['AMBANJA', 'AMBILOBE','ANTSIRANANA I','ANTSIRANANA II','NOSY-BE'],
+
+            'HAUTE-MATSIATRA' => ['AMBALAVAO','AMBOHIMAHASOA','FIANARANTSOA I ','IKALAMAVONY','ISANDRA','LALANGINA','VOHIBATO'],
+
+            'IHOROMBE' => ['IAKORA','IHOSY','IVOHIBE'],
+
+            'ITASY' => ['ARIVONIMAMO','MIARINARIVO','SOAVINANDRIANA'],
+
+            'MELAKY' => ['AMBATOMAINTY','ANTSALOVA','BESALAMPY','MAINTIRANO','MORAFENOBE'],
+
+            'MENABE' => ['BELO SUR TSIRIBIHINA','MAHABO','MANJA','MIANDRIVAZO','MORONDAVA'],
+
+            'SAVA' => ['ANDAPA','ANTALAHA','SAMBAVA','VOHIMARINA'],
+
+            'SOFIA' => ['ANALALAVA','ANTSOHIHY','BEALANANA','BEFANDRIANA-NORD','MAMPIKONY','MANDRITSARA','PORT-BERG'],
+
+            'VAKINAKARATRA' => ['AMBATOLAMPY', 'ANTANIFOTSY','ANTSIRABE I', 'ANTSIRABE II','BETAFO','FARATSIHO ','MANDOTO '],
+            
+            'VATOVAVY FITOVINANY' => ['IFANADIANA','IKONGO','MANAKARA','MANANJARY','NOSY-VARIKA','VOHIPENO'],
         ];
 
-        // Boucle pour créer chaque région et ses districts associés
+        
         foreach ($regionsWithDistricts as $regionName => $districtNames) {
-            // Créer l'objet Région
             $region = new Region();
             $region->setName($regionName);
 
-            // Persister la région dans la base de données
             $manager->persist($region);
 
-            // Boucle pour ajouter chaque district associé à cette région
             foreach ($districtNames as $districtName) {
-                // Créer l'objet District
                 $district = new District();
-                
-                // Définir le nom du district en tant qu'une seule chaîne de caractères
-                $district->setName($districtName);  // $districtName doit être passé dans un tableau car `name` est de type JSON
-                $district->setRegion($region); // Associer le district à sa région
+                $district->setName($districtName);  
+                $district->setRegion($region); 
 
-                // Persister le district dans la base de données
                 $manager->persist($district);
             }
         }
-
-        // Enregistrer tous les changements dans la base de données
         $manager->flush();
     }
 }
