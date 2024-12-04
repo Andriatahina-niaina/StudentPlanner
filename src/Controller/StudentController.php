@@ -12,7 +12,7 @@ class StudentController extends AbstractController
     #[Route('/home/student/{annee}', name: 'app_student' ,  defaults: ['annee' => null])]
     public function index(StudentRepository $repository, ?string $annee): Response
     {
-        $etudiant = $repository ->findBy(
+        $etudiants = $repository ->findBy(
             ['anne_scolaire' => $annee],
             ['anne_scolaire' => 'ASC']
         );
@@ -25,7 +25,7 @@ class StudentController extends AbstractController
         ];
 
         // Calcul des données
-        foreach ($etudiant as $etudiant) {
+        foreach ($etudiants as $etudiant) {
             $status = strtolower($etudiant->getStatusJuridique()); // "public" ou "prive"
 
             $data['prescolaire'][$status] += $etudiant->getStudentNbrPresco();

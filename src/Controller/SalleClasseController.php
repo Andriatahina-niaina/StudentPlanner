@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class SalleClasseController extends AbstractController
 {
-    #[Route('/home/salle_classe/{annee}', name: 'app_salle_classe',defaults: ['annee' => null])]
+    #[Route('/home/salle_classe/{annee}', name: 'app_salle_classe',defaults: ['annee' => NULL])]
     public function index(SalleClasseRepository $repository, ?string $annee): Response
     {
         // Requête pour récupérer les données pour une année scolaire spécifique
