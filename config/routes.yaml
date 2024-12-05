@@ -3,3 +3,7 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+    
+personal_chart_data:
+        path: /home/personal/chart-data
+        controller: App\Controller\PersonalController::getChartData

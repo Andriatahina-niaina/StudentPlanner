@@ -1,7 +1,6 @@
-
 {% extends 'base.html.twig' %}
 
-{% block title %}Page des Salle des classe{% endblock %}
+{% block title %}Page des Etablissements{% endblock %}
 
 {% block body %}
     <main class="container-fluid  border">
@@ -62,6 +61,66 @@
                 </div>
             </div>
         </section>
+        
+        <section id="etabGraphe">
+            <label for="localisationGraphe" class="form-label">Filtrer par :</label>
+            <select id="localisationGraphe" class="form-select" onchange="updateChart()">
+                <option value="region" {% if filter == 'region' %}selected{% endif %}>Région</option>
+                <option value="district" {% if filter == 'district' %}selected{% endif %}>District</option>
+            </select>
+
+            <canvas id="etablishmentChart" width="400" height="200"></canvas>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            let regionChartData = {{ region_chart_data|json_encode|raw }};
+            let districtChartData = {{ district_chart_data|json_encode|raw }};
+            const ctx = document.getElementById('etablishmentChart').getContext('2d');
+            let barChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: regionChartData.labels, // Par défaut, afficher les régions
+                    datasets: [{
+                        label: 'Nombre d\'établissements',
+                        data: regionChartData.data, // Par défaut, utiliser les données des régions
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                        borderColor: 'rgba(54, 162, 235, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Région / District'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Nombre d\'établissements'
+                            },
+                            beginAtZero: false
+                        }
+                    }
+                }
+            });
+
+            function updateChart() {
+                const filterBy = document.getElementById('localisationGraphe').value;
+
+                if (filterBy === 'region') {
+                    barChart.data.labels = regionChartData.labels;
+                    barChart.data.datasets[0].data = regionChartData.data;
+                } else if (filterBy === 'district') {
+                    barChart.data.labels = districtChartData.labels;
+                    barChart.data.datasets[0].data = districtChartData.data;
+                }
+
+                barChart.update();
+            }
+        </script>
     </main>
 {% endblock %}
-

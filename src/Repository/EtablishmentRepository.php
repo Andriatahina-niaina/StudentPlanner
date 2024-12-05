@@ -16,28 +16,30 @@ class EtablishmentRepository extends ServiceEntityRepository
         parent::__construct($registry, Etablishment::class);
     }
 
-    //    /**
-    //     * @return Etablishment[] Returns an array of Etablishment objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('e.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getDataGroupedByRegion(string $annee): array
+    {
+        return $this->createQueryBuilder('e')
+            ->select('r.name as region, SUM(e.presco_nombres + e.primaire_nombres + e.college_nombres + e.lycee_nombres) as total')
+            ->join('e.district_etab', 'd')
+            ->join('d.region', 'r')
+            ->where('e.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('r.id')
+            ->getQuery()
+            ->getResult();
 
-    //    public function findOneBySomeField($value): ?Etablishment
-    //    {
-    //        return $this->createQueryBuilder('e')
-    //            ->andWhere('e.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    }
+
+    public function getDataGroupedByDistrict(string $annee): array
+    {
+        return $this->createQueryBuilder('e')
+            ->select('d.name as district, SUM(e.presco_nombres + e.primaire_nombres + e.college_nombres + e.lycee_nombres) as total')
+            ->join('e.district_etab', 'd')
+            ->where('e.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+
+    }
 }

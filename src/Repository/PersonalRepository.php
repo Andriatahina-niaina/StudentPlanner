@@ -16,28 +16,28 @@ class PersonalRepository extends ServiceEntityRepository
         parent::__construct($registry, Personal::class);
     }
 
-    //    /**
-    //     * @return Personal[] Returns an array of Personal objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('p.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getDataGroupedByRegion(string $annee): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('r.name as name, SUM(p.person_nbr_presco + p.person_nbr_primaire + p.person_nbr_college + p.person_nbr_lycee) as total')
+            ->join('p.district_person', 'd')
+            ->join('d.region', 'r')
+            ->where('p.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('r.id')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?Personal
-    //    {
-    //        return $this->createQueryBuilder('p')
-    //            ->andWhere('p.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getDataGroupedByDistrict(string $annee): array
+    {
+        return $this->createQueryBuilder('p')
+            ->select('d.name as name, SUM(p.person_nbr_presco + p.person_nbr_primaire + p.person_nbr_college + p.person_nbr_lycee) as total')
+            ->join('p.district_person', 'd')
+            ->where('p.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+    }
 }

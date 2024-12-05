@@ -61,5 +61,68 @@
                 </div>
             </div>
         </section>
-    </main>
+       <section class="personalGraph">
+            <label for="localisationGraphe" class="form-label">Filtrer par :</label>
+            <select id="localisationGraphe" class="form-select" onchange="updateChart()">
+                <option value="region" {% if filter == 'region' %}selected{% endif %}>Région</option>
+                <option value="district" {% if filter == 'district' %}selected{% endif %}>District</option>
+            </select>
+
+            <canvas id="barChartPersonal" width="400" height="200"></canvas>
+        </section>
+
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        let regionChartData = {{ region_chart_data|json_encode|raw }};
+        let districtChartData = {{ district_chart_data|json_encode|raw }};
+        const ctx = document.getElementById('barChartPersonal').getContext('2d');
+        let barChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: regionChartData.labels, // Par défaut, afficher les régions
+                datasets: [{
+                    label: 'Nombre de personnels',
+                    data: regionChartData.data, // Par défaut, utiliser les données des régions
+                    backgroundColor: 'rgba(75, 192, 192, 0.5)',
+                    borderColor: 'rgba(75, 192, 192, 1)',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    x: {
+                        title: {
+                            display: true,
+                            text: 'Localisation'
+                        }
+                    },
+                    y: {
+                        title: {
+                            display: true,
+                            text: 'Nombre de personnels'
+                        },
+                        beginAtZero: true,
+                        ticks: {
+                            stepSize: 50
+                        }
+                    }
+                }
+            }
+        });
+
+        function updateChart() {
+            const filterBy = document.getElementById('localisationGraphe').value;
+
+            if (filterBy === 'region') {
+                barChart.data.labels = regionChartData.labels;
+                barChart.data.datasets[0].data = regionChartData.data;
+            } else if (filterBy === 'district') {
+                barChart.data.labels = districtChartData.labels;
+                barChart.data.datasets[0].data = districtChartData.data;
+            }
+
+            barChart.update();
+        }
+    </script>
+</main>
 {% endblock %}

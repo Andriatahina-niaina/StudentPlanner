@@ -16,28 +16,28 @@ class SalleClasseRepository extends ServiceEntityRepository
         parent::__construct($registry, SalleClasse::class);
     }
 
-    //    /**
-    //     * @return SalleClasse[] Returns an array of SalleClasse objects
-    //     */
-    //    public function findByExampleField($value): array
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->orderBy('s.id', 'ASC')
-    //            ->setMaxResults(10)
-    //            ->getQuery()
-    //            ->getResult()
-    //        ;
-    //    }
+    public function getDataGroupedByRegion(string $annee): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('r.name as name, SUM(s.salle_nbr_presco + s.salle_nbr_primaire + s.salle_nbr_college + s.salle_nbr_lycee) as total')
+            ->join('s.district_salle', 'd')
+            ->join('d.region', 'r')
+            ->where('s.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('r.id')
+            ->getQuery()
+            ->getResult();
+    }
 
-    //    public function findOneBySomeField($value): ?SalleClasse
-    //    {
-    //        return $this->createQueryBuilder('s')
-    //            ->andWhere('s.exampleField = :val')
-    //            ->setParameter('val', $value)
-    //            ->getQuery()
-    //            ->getOneOrNullResult()
-    //        ;
-    //    }
+    public function getDataGroupedByDistrict(string $annee): array
+    {
+        return $this->createQueryBuilder('s')
+            ->select('d.name as name, SUM(s.salle_nbr_presco + s.salle_nbr_primaire + s.salle_nbr_college + s.salle_nbr_lycee) as total')
+            ->join('s.district_salle', 'd')
+            ->where('s.anne_scolaire = :annee')
+            ->setParameter('annee', $annee)
+            ->groupBy('d.id')
+            ->getQuery()
+            ->getResult();
+    }
 }
